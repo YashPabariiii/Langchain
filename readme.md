@@ -28,3 +28,9 @@ Receives the formatted prompt and generates a response.
 ### 4. StrOutputParser
 
 The LLM actually returns a complex object containing timestamps and token counts; this parser strips all that away and gives you just the text of the answer.
+
+Tool flow is always:
+HumanMessage
+→ AIMessage (with tool_calls)
+→ ToolMessage (tool result)
+→ AIMessage (final answer)

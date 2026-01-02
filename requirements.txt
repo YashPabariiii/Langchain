@@ -4,3 +4,4 @@ dotenv
 langchain_groq
 faiss-cpu 
 sentence-transformers
+pypdf

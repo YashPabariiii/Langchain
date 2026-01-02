@@ -1,0 +1,82 @@
+
+## 📝 LangChain Tool Calling – Common Mistakes & Fixes (My Notes)
+
+### 1️⃣ `bind_tools` needs a **list**
+
+❌ `llm.bind_tools(tool)`
+✅ `llm.bind_tools([tool])`
+
+---
+
+### 2️⃣ Don’t hardcode variables in strings
+
+❌ `"Count words in {file_path}"`
+✅ `f"Count words in {file_path}"`
+
+---
+
+### 3️⃣ `ainvoke()` must be awaited
+
+❌ `llm.ainvoke()` (without `await`)
+✅ Use `invoke()` **or** `await ainvoke()` inside `async`
+
+---
+
+### 4️⃣ Don’t double-wrap messages
+
+❌ `llm.invoke([messages])`
+✅ `llm.invoke(messages)`
+
+---
+
+### 5️⃣ Tool invocation requires **dict args**
+
+❌ `tool.invoke(pdf_path)`
+✅ `tool.invoke({"file_path": pdf_path})`
+
+---
+
+### 6️⃣ Tool ≠ Message
+
+❌ `messages.append(tool_result)`
+✅ Wrap output in `ToolMessage`
+
+```python
+ToolMessage(
+  content=str(tool_result),
+  tool_call_id=tool_call["id"]
+)
+```
+
+---
+
+### 7️⃣ Always use `tool_call_id`
+
+* Links tool result to tool request
+* Mandatory for final LLM response
+
+---
+
+### 8️⃣ LLM does NOT execute tools
+
+**Flow to remember:**
+
+```
+HumanMessage
+→ AIMessage (tool_calls)
+→ ToolMessage
+→ AIMessage (final answer)
+```
+
+---
+
+### 9️⃣ PDF errors are NOT LangChain issues
+
+`PdfStreamError` = corrupted / malformed PDF
+Handle with `try/except`
+
+---
+
+### 🔑 One-line takeaway
+
+> **LLM decides, you execute. Tools are orchestration, not magic.**
