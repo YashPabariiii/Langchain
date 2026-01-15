@@ -5,3 +5,5 @@ langchain_groq
 faiss-cpu 
 sentence-transformers
 pypdf
+typing
+langgraph
