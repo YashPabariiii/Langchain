@@ -7,3 +7,5 @@ sentence-transformers
 pypdf
 typing
 langgraph
+ddgs
+yfinance
